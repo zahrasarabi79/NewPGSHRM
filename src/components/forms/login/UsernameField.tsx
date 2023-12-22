@@ -1,7 +1,6 @@
 // UsernameField.tsx
 import React from 'react';
 import { Control, Controller, UseFormRegister, UseFormWatch } from 'react-hook-form';
-import { validateUsername } from '@/components/forms/utils';
 import { TextFieldStyle } from '@/landing/shared/TextFieldStyle';
 import { useMediaQuery, useTheme } from '@mui/material';
 
@@ -14,14 +13,8 @@ interface UsernameFieldProps {
   handleMouseDownUsername: () => void;
 }
 
-const UsernameField: React.FC<UsernameFieldProps> = ({
-  control,
-  errors,
-  reqError,
-  handleMouseDownUsername,
-}) => {
+const UsernameField: React.FC<UsernameFieldProps> = ({ control, errors, reqError, handleMouseDownUsername }) => {
   const theme = useTheme();
-  const isDownSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isDownMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <Controller
@@ -29,7 +22,6 @@ const UsernameField: React.FC<UsernameFieldProps> = ({
       control={control}
       rules={{
         required: 'این فیلد الزامی است',
-        validate: (value: string) => validateUsername(value),
       }}
       render={({ field }) => (
         <TextFieldStyle
@@ -37,7 +29,7 @@ const UsernameField: React.FC<UsernameFieldProps> = ({
           {...field}
           fullWidth
           dir="rtl"
-          size={isDownMediumScreen ? 'small' : 'large'}
+          size={isDownMediumScreen ? 'small' : 'medium'}
           label="نام کاربری"
           autoComplete="off"
           variant="outlined"
@@ -45,9 +37,7 @@ const UsernameField: React.FC<UsernameFieldProps> = ({
           id="username"
           data-testid="username"
           error={errors.username || reqError}
-          helperText={
-            Boolean(errors.username?.message) ? errors.username?.message : ' ' || reqError
-          }
+          helperText={Boolean(errors.username?.message) ? errors.username?.message :  reqError}
         />
       )}
     />

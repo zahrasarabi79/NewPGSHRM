@@ -1,6 +1,5 @@
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import '@/landing/style/style.css';
@@ -18,7 +17,7 @@ const LandingSlider: React.FC<{
   setActiveIndex: any;
   thumbsSwiper: any;
 }> = ({ thumbsSwiper, activeIndex, handleSlideClick, setThumbsSwiper, setActiveIndex }) => {
-  const swiper = useSwiper();
+  useSwiper();
   const theme = useTheme();
   const isDownSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isDownMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -28,16 +27,22 @@ const LandingSlider: React.FC<{
   };
   return (
     <Grid
-      dir="ltr"
       item
       xs={isDownMediumScreen ? 12 : 6}
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 'auto' }}
+      sx={{
+        order: 3,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 'auto',
+        mb: isDownSmallScreen ? '0px' : '300px',
+      }}
     >
       <Swiper
         onSwiper={setThumbsSwiper}
-        spaceBetween={10}
         slidesPerView={'auto'}
         rewind={true}
+        speed={1200}
         keyboard={{
           enabled: true,
         }}
@@ -51,22 +56,13 @@ const LandingSlider: React.FC<{
             style={{
               overflow: 'hidden',
               backgroundImage: `url(${slide.url})`,
-              // boxShadow: '0px 2.284px 15.986px 0px rgba(174, 233, 255, 0.25)',
+              boxShadow: '0px 2.284px 15.986px 0px rgba(174, 233, 255, 0.25)',
               width: '100%',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               borderRadius: '12px',
               ...(index === activeIndex && {
-                border: index === 3 ? '2px solid #4CAF50' : '2px solid #aee9ff',
-                // '.thumb-box': {
-                //   bgcolor: index === 3 ? 'rgba(76, 175, 80, 0.50)' : 'rgba(174, 233, 255,0.20)',
-                // },
-                // '.thumb-icon': {
-                //   backgroundColor: index === 3 ? 'white' : '#aee9ff',
-                // },
-                // '.thumb-Font-color': {
-                //   color: index === 3 ? '#4CAF50' : '#aee9ff',
-                // },
+                border: index === 4 ? '2px solid #4CAF50' : '2px solid #aee9ff',
               }),
             }}
             onClick={() => handleSlideClick(index)}
@@ -77,7 +73,15 @@ const LandingSlider: React.FC<{
       </Swiper>
       {!isDownSmallScreen && (
         <>
-          <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: '20px' }} />
+          <Divider
+            orientation="vertical"
+            variant="middle"
+            sx={{
+              mx: '20px',
+              height: isDownMediumScreen ? '120px' : '175px',
+              borderColor: '#FDFDFD',
+            }}
+          />
           <IconButton
             onClick={() => handleNextSlide()}
             className="thumb-box"
@@ -91,20 +95,23 @@ const LandingSlider: React.FC<{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              transition: '300ms ease-in',
+
               '&:hover': {
                 bgcolor: 'rgba(253, 253, 253, 0.10)',
                 border: '2px solid #AEE9FF',
                 boxShadow: ' 0px 5px 35px 0px rgba(174, 233, 255, 0.25);',
                 '.Arrow-icon': { backgroundColor: '#AEE9FF' },
               },
+              '&:active': {
+                bgcolor: '#AEE9FF',
+                border: '2px solid #AEE9FF',
+                boxShadow: ' 0px 5px 35px 0px rgba(174, 233, 255, 0.25);',
+                '.Arrow-icon': { backgroundColor: '#1D1B1C' },
+              },
             }}
           >
-            <Icon
-              className="Arrow-icon"
-              pathName="../icons/landing-icon/AltArrowRight.svg"
-              size="20px"
-              color="white"
-            />
+            <Icon className="Arrow-icon" pathName="../icons/landing-icon/AltArrowRight.svg" size="20px" color="white" />
           </IconButton>
         </>
       )}

@@ -6,6 +6,7 @@ import LandingIntroduction from '@/landing/LandingIntroduction';
 import Login from '@/components/pages/login/Login';
 import { sliderImages } from '@/public/data/landingSliderData';
 import LandingSlider from '@/landing/landing-slider/LandingSlider';
+import LandingNotificationSlider from '@/landing/landing-notification/LandingNotificaionSLider';
 
 const Landing = () => {
   const theme = useTheme();
@@ -30,27 +31,19 @@ const Landing = () => {
       <Box
         sx={{
           backgroundImage: `url(${sliderImages[activeIndex].url})`,
+          transition: '500ms ease-in',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '100vh',
         }}
       >
-        <Container
-          maxWidth={false}
-          sx={{ maxWidth: isDownSmallScreen ? '600px' : isDownMediumScreen ? '604px' : '1820px' }}
-          dir={'ltr'}
-        >
+        <Container maxWidth={false} sx={{ maxWidth: isDownSmallScreen ? '600px' : isDownMediumScreen ? '604px' : '1820px', padding: isDownSmallScreen ? 'auto' : '0px !important' }} dir="ltr">
           <Grid container sx={{ height: '100vh' }}>
             <LandingNavbar />
-            <Login />
             <LandingIntroduction />
-            <LandingSlider
-              thumbsSwiper={thumbsSwiper}
-              activeIndex={activeIndex}
-              handleSlideClick={handleSlideClick}
-              setThumbsSwiper={setThumbsSwiper}
-              setActiveIndex={setActiveIndex}
-            />
+            <Login />
+            <LandingSlider thumbsSwiper={thumbsSwiper} activeIndex={activeIndex} handleSlideClick={handleSlideClick} setThumbsSwiper={setThumbsSwiper} setActiveIndex={setActiveIndex} />
+            {!isDownSmallScreen && <LandingNotificationSlider />}
           </Grid>
         </Container>
       </Box>
